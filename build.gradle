@@ -1,0 +1,20 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+
+jar {
+	baseName = 'samurai-db'
+	version = '0.1'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile 'io.netty:netty-all:4.0.30.Final'
+	// compile 'org.mapdb:mapdb:1.0.7'
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.0'
+}
