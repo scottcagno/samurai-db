@@ -1,4 +1,4 @@
-package com.cagnosolutions.samurai.db.netty;
+package com.cagnosolutions.samurai.db.net;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -15,13 +15,7 @@ import io.netty.handler.logging.LoggingHandler;
 
 public final class Server {
 
-	private int port;
-
-	public Server(int port) {
-		this.port = port;
-	}
-
-	public void run() {
+	public void run(String host, int port) {
 		EventLoopGroup bossGroup = new NioEventLoopGroup(1);
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
@@ -31,10 +25,8 @@ public final class Server {
 					.handler(new LoggingHandler(LogLevel.INFO))
 					.childHandler(new ServerInitializer());
 
-			// start server
-			ChannelFuture f = b.bind(port).sync();
+			ChannelFuture f = b.bind(host, port).sync();
 
-			// wait until socket is closed
 			f.channel().closeFuture().sync();
 		} catch (InterruptedException ex) {
 			ex.printStackTrace();

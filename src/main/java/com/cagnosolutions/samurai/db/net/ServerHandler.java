@@ -1,4 +1,4 @@
-package com.cagnosolutions.samurai.db.netty;
+package com.cagnosolutions.samurai.db.net;
 
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
