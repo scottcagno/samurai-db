@@ -1,5 +1,7 @@
 package com.cagnosolutions.samurai.db.net;
 
+import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -10,30 +12,30 @@ import io.netty.channel.SimpleChannelInboundHandler;
  */
 
 @ChannelHandler.Sharable
-public class ServerHandler extends SimpleChannelInboundHandler<byte[]> {
+public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
-	public void channelRead0(ChannelHandlerContext ctx, byte[] msg) throws Exception {
+	public void channelRead0(ChannelHandlerContext ctx, String msg) {
+		handleRead(ctx, msg);
+		ctx.write(msg + "\n");
+	}
 
-		
 
+	private void handleRead(ChannelHandlerContext ctx, String msg) {
 
-		System.out.printf("[");
-		for(int i = 0; i < msg.length; i++)
-			if(i+1 == msg.length)
-				System.out.printf("%d (%c)", msg[i], msg[i]);
-			else
-				System.out.printf("%d (%c), ", msg[i], msg[i]);
-		System.out.printf("]\n");
-
-		/*
 		String[] ss = msg.split("\\s+", 3);
+
 		System.out.printf("got (%d): ", ss.length);
 		for(int i = 0; i < ss.length; i++)
-			System.out.printf("'%s' ", ss[i]);
-		System.out.println();
+			System.out.printf("'%s' ", ((i + 1 <= ss.length) ? ss[i] : "\n"));
 		if ("exit".equals(msg.toLowerCase()))
 			ctx.close();
-		*/
+	}
+
+	public void channelReadComplete(ChannelHandlerContext ctx) {
+		// flushes all pending messages to the remote peer
+		ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)
+				// closes the channel after the operation is complete
+				.addListener(ChannelFutureListener.CLOSE);
 	}
 
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
