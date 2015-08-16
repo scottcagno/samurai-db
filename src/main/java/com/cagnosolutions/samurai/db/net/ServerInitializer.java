@@ -1,8 +1,14 @@
 package com.cagnosolutions.samurai.db.net;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.DelimiterBasedFrameDecoder;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
+import io.netty.util.CharsetUtil;
 
 /**
  * Created by Scott Cagno.
@@ -11,14 +17,16 @@ import io.netty.channel.socket.SocketChannel;
 
 public class ServerInitializer extends ChannelInitializer<SocketChannel> {
 
+	private static final ByteBuf DELIMITER = Unpooled.wrappedBuffer(new byte[]{'\r','\n'});
+
+	private static final int KB = 1024;
+	private static final int MB = 1024*KB;
+
 	public void initChannel(SocketChannel ch) {
 		ChannelPipeline pl = ch.pipeline();
-
-		pl.addLast(new RequestDecoder(1024*6));
-
-		//pl.addLast(new DelimiterBasedFrameDecoder(8192, Unpooled.wrappedBuffer(new byte[]{'\r','\n'})));
-		//pl.addLast(new ByteArrayDecoder());
-		//pl.addLast(new ByteArrayEncoder());
+		pl.addLast(new DelimiterBasedFrameDecoder(256*MB, DELIMITER));
+		pl.addLast(new StringDecoder(CharsetUtil.UTF_8));
+		pl.addLast(new StringEncoder(CharsetUtil.UTF_8));
 		pl.addLast(new ServerHandler());
 	}
 }

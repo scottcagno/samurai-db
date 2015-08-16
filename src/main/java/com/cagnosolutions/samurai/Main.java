@@ -11,7 +11,14 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		new Server().run("localhost", 9999);
+		Server server = new Server();
+		server.run("localhost", 9999);
+
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			public void run() {
+				System.out.printf("... shutting down.\n");
+			}
+		});
 
 	}
 }

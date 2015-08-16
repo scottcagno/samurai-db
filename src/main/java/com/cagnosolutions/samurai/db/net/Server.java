@@ -26,11 +26,12 @@ public final class Server {
 					.childHandler(new ServerInitializer());
 
 			ChannelFuture f = b.bind(host, port).sync();
-
 			f.channel().closeFuture().sync();
 		} catch (InterruptedException ex) {
+			System.out.println("Server.catch(InterruptedException)...");
 			ex.printStackTrace();
 		} finally {
+			System.out.println("Server.finally block...");
 			bossGroup.shutdownGracefully();
 			workerGroup.shutdownGracefully();
 		}
