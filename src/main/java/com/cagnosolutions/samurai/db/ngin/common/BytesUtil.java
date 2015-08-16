@@ -1,4 +1,4 @@
-package com.cagnosolutions.samurai.db.engine.common;
+package com.cagnosolutions.samurai.db.ngin.common;
 
 import java.util.Comparator;
 

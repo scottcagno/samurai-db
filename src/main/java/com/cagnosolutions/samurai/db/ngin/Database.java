@@ -1,7 +1,6 @@
-package com.cagnosolutions.samurai.db.engine;
+package com.cagnosolutions.samurai.db.ngin;
 
-import com.cagnosolutions.samurai.db.engine.common.*;
-
+import com.cagnosolutions.samurai.db.ngin.common.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
