@@ -11,7 +11,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Server server = new Server();
+		Server server = new Server("/tmp/samurai-aof.txt");
 		server.run("localhost", 9999);
 
 		Runtime.getRuntime().addShutdownHook(new Thread() {

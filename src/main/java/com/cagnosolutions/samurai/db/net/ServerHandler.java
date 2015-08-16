@@ -14,15 +14,15 @@ import io.netty.channel.SimpleChannelInboundHandler;
 @ChannelHandler.Sharable
 public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
-	public void channelRead0(ChannelHandlerContext ctx, String msg) {
+	public void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
 		handleRead(ctx, msg);
-		ctx.write(msg + "\n");
+		ctx.write("from server:" + msg + "\n");
 	}
-
 
 	private void handleRead(ChannelHandlerContext ctx, String msg) {
 
 		String[] ss = msg.split("\\s+", 3);
+
 
 		System.out.printf("got (%d): ", ss.length);
 		for(int i = 0; i < ss.length; i++)
