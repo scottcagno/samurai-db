@@ -1,4 +1,4 @@
-package com.cagnosolutions.samurai.db.net;
+package com.cagnosolutions.samurai.db.io.net;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
@@ -22,7 +22,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 	private void handleRead(ChannelHandlerContext ctx, String msg) {
 
 		String[] ss = msg.split("\\s+", 3);
-
 
 		System.out.printf("got (%d): ", ss.length);
 		for(int i = 0; i < ss.length; i++)
