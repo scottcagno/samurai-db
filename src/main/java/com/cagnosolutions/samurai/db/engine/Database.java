@@ -40,7 +40,6 @@ public final class Database {
 			return ERR;
 	}
 
-
 	public String put(String key, String val) {
 		if(!databaseEngine.put(key, val))
 			return ERR;
