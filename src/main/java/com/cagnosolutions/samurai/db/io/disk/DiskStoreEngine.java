@@ -2,6 +2,8 @@ package com.cagnosolutions.samurai.db.io.disk;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -79,4 +81,17 @@ public class DiskStoreEngine {
 			writeLock.unlock();
 		}
 	}
+
+	public List<String> read() {
+		position = 0;
+		int startIndex = 0, stopIndex = 0;
+		List<String> data = new ArrayList<>();
+		while(stopIndex < diskStore.remaining()-1) {
+			stopIndex = diskStore.findNewline();
+			data.add(new String(diskStore.get(startIndex, stopIndex-startIndex)));
+			startIndex = stopIndex;
+		}
+		return data;
+	}
+
 }

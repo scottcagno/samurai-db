@@ -1,5 +1,7 @@
 package com.cagnosolutions.samurai;
 
+import com.cagnosolutions.samurai.db.engine.Database;
+
 import java.io.IOException;
 
 /**
@@ -22,38 +24,12 @@ public class Main {
 		});
 		*/
 
-		/*
-		Database db = Database.INSTANCE;
-		db.stmt("set foo bar baz");
-		db.stmt("set barness foo bar baz ness");
-		String res1 = db.stmt("get foo");
-		String res2 = db.stmt("get barness");
-		System.out.printf("res1: %s\n", res1);
-		System.out.printf("res2: %s\n", res2);
-		*/
-
-		/*
-		DiskStore store = new DiskStore(new File("diskstore.txt"), DiskStore.KB);
-		byte[] output = store.get(0, 8);
-		String value = new String(output);
-		System.out.printf("got: %s", value);
-		*/
-
-		/*int pos = 0;
-		byte[] data = "foo bar\n".getBytes();
-		store.put(pos, data);
-
-		pos += data.length;
-		data = "your momma is awesome\n".getBytes();
-		store.put(pos, data);
-
-		pos += data.length;
-		data = "last one\n".getBytes();
-		store.put(pos, data);*/
-
-		//store.close();
-
+		Database db = new Database("samurai-db.aof.txt", 1024*512);
 		long ts = System.currentTimeMillis();
-		System.out.printf("%d (%d)\n", ts);
+		//System.out.println(db.stmt("GET K:85"));
+		for(int i = 0; i < 10000; i++) {
+			db.stmt("put K:%d THE %d VALUE", i, i);
+		}
+		System.out.printf("took %dms to insert 10,000 records\n", System.currentTimeMillis() - ts);
 	}
 }

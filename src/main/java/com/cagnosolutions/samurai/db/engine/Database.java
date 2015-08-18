@@ -2,6 +2,7 @@ package com.cagnosolutions.samurai.db.engine;
 
 import com.cagnosolutions.samurai.db.engine.util.UUID1;
 import com.cagnosolutions.samurai.db.io.disk.DiskStoreEngine;
+import java.util.List;
 
 /**
  * Created by Scott Cagno.
@@ -19,13 +20,18 @@ public final class Database {
 	public Database(String path, int size) {
 		diskStoreEngine = new DiskStoreEngine(path, size);
 		databaseEngine = new DatabaseEngine();
+
+		// loaded from file
+		List<String> data = diskStoreEngine.read();
+		if(data.size() > 0)
+			for(String stmt : data)
+				stmt(stmt.substring(14));
 	}
 
-	/**
-	 * Single string statement method
-	 * @param stmt
-	 * @return
-	 */
+	public String stmt(String stmt, Object ...fmt) {
+		return stmt(String.format(stmt, fmt));
+	}
+
 	public String stmt(String stmt) {
 		String[] stmtData = stmt.split("\\s+", 3);
 		if(stmtData[0].equalsIgnoreCase("PUT"))

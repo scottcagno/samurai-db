@@ -81,6 +81,13 @@ public class DiskStore {
 		buffer.put(value);
 	}
 
+	public int findNewline() {
+		byte b = this.buffer.get(this.buffer.position());
+		while(b != '\n' && (this.buffer.remaining() > this.buffer.position()-2))
+			b = this.buffer.get();
+		return this.buffer.position();
+	}
+
 	public int remaining() {
 		return this.buffer.remaining();
 	}
