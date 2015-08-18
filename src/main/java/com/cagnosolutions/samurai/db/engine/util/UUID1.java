@@ -1,4 +1,4 @@
-package com.cagnosolutions.samurai.db.ngin.util;
+package com.cagnosolutions.samurai.db.engine.util;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

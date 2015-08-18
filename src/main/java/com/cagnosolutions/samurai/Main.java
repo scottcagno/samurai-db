@@ -1,8 +1,5 @@
 package com.cagnosolutions.samurai;
 
-import com.cagnosolutions.samurai.db.io.disk.DiskStore;
-
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -35,10 +32,12 @@ public class Main {
 		System.out.printf("res2: %s\n", res2);
 		*/
 
+		/*
 		DiskStore store = new DiskStore(new File("diskstore.txt"), DiskStore.KB);
 		byte[] output = store.get(0, 8);
 		String value = new String(output);
 		System.out.printf("got: %s", value);
+		*/
 
 		/*int pos = 0;
 		byte[] data = "foo bar\n".getBytes();
@@ -52,6 +51,9 @@ public class Main {
 		data = "last one\n".getBytes();
 		store.put(pos, data);*/
 
-		store.close();
+		//store.close();
+
+		long ts = System.currentTimeMillis();
+		System.out.printf("%d (%d)\n", ts);
 	}
 }
