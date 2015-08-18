@@ -7,7 +7,7 @@ package com.cagnosolutions.samurai.db.io.disk;
 
 public class DiskBlockManager {
 
-	// ----------------------------
+	// -----------------------------
 	//   4096 KB BLOCK SIZE
 	// -----------------------------
 	// <OPCODE> <KEY> <VALUE>
