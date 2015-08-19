@@ -15,4 +15,13 @@ public class DiskBlockManager {
 	// -----------------------------
 	// 768MB RAM = 192,608 4K BLOCKS
 	// 512MB RAM = 131,072 4K BLOCKS
+
+
+	public void put() {
+
+	}
+
+	public void get() {
+
+	}
 }
