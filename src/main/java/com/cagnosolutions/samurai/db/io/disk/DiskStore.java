@@ -19,6 +19,10 @@ public class DiskStore {
 	public static final int KB = 1024;
 	public static final int MB = 1024*KB;
 
+	public static final int BLOCK = KB*4;
+	public static final int KEY_BLOCK = 64;
+	public static final int VAL_BLOCK = 4032;
+
 	private RandomAccessFile in;
 	private FileChannel ch;
 	private MappedByteBuffer buffer;
@@ -86,6 +90,43 @@ public class DiskStore {
 	public void rewind() {
 		this.buffer.rewind();
 	}
+
+	/**
+	 * Block methods
+	 */
+
+	public void put(byte[] key, byte[] value) {
+		buffer.put(key);
+		buffer.put(value);
+	}
+
+	public void put(int startIndex, byte[] key, byte[] value) {
+		buffer.position(startIndex);
+		buffer.put(key);
+		buffer.put(value);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/**
 	 * NEW METHODS THAT I WROTE

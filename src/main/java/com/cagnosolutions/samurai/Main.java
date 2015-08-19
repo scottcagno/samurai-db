@@ -1,9 +1,10 @@
 package com.cagnosolutions.samurai;
 
-import com.cagnosolutions.samurai.db.engine.Database;
 import com.cagnosolutions.samurai.db.engine.util.MemoryStats;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Scott Cagno.
@@ -25,6 +26,7 @@ public class Main {
 		});
 		*/
 
+		/*
 		System.out.println("----- PROGRAM STARTED -----");
 
 		System.out.println(":: PAUSED FOR 3 SECONDS");
@@ -54,6 +56,20 @@ public class Main {
 		System.out.println(res);
 
 		System.out.println("----- PROGRAM STOPPED -----");
+		*/
+
+		System.out.println(":: RUNNING MEMORY TEST");
+		MemoryStats.print();
+		Thread.sleep(1000);
+
+		System.out.println(":: ADDING RECORDS TO INDEX");
+		Map<String,Integer> index = new HashMap<>();
+		for (int i = 0; i < 10000; i++)
+			index.put(String.valueOf(i), i);
+		System.out.println(":: RUNNING MEMORY TEST");
+		MemoryStats.print();
+		Thread.sleep(1000);
+
 
 		//long ts = System.currentTimeMillis();
 		//System.out.println(db.stmt("GET K:85"));
