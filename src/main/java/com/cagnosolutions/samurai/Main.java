@@ -4,7 +4,6 @@ import com.cagnosolutions.samurai.db.engine.util.MemoryStats;
 import com.cagnosolutions.samurai.db.io.disk.TestMap;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * Created by Scott Cagno.
@@ -60,20 +59,30 @@ public class Main {
 
 
 
+
+
+
+
+
+
 		System.out.println(":: RUNNING MEMORY TEST");
 		MemoryStats.print();
 		Thread.sleep(1000);
 		System.out.println(":: ADDING RECORDS TO INDEX");
+		long ts1 = System.currentTimeMillis();
 		TestMap index = new TestMap();
-		for (int i = 0; i < 100000; i++)
-			index.put(String.valueOf(i), String.valueOf(i));
+		for (int i = 0; i < 100000; i++) {
+			String key = String.format("K%d", i);
+			String val = String.format("V%d", i);
+			index.put(key.getBytes(), val.getBytes());
+		}
+		long ts2 = System.currentTimeMillis()-ts1;
 		System.out.println(":: RUNNING MEMORY TEST");
 		MemoryStats.print();
 		Thread.sleep(1000);
 
-		System.out.println(index.size());
-		byte[] b = index.get("9999");
-		System.out.println(Arrays.toString(b));
+		System.out.printf("index size: %d\n", index.size());
+		System.out.printf("program ran in %dms\n", ts2);
 
 
 

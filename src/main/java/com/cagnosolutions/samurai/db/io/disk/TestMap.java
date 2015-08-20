@@ -1,7 +1,8 @@
 package com.cagnosolutions.samurai.db.io.disk;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.gs.collections.api.map.MutableMap;
+import com.gs.collections.impl.list.mutable.primitive.ByteArrayList;
+import com.gs.collections.impl.map.mutable.ConcurrentHashMap;
 
 /**
  * Created by Scott Cagno.
@@ -10,38 +11,31 @@ import java.util.Map;
 
 public class TestMap {
 
-	private Map<byte[],byte[]> test = new HashMap<>();
+	private MutableMap<ByteArrayList, ByteArrayList> index = new ConcurrentHashMap<>();
 
-	public byte[] put(String k, String v) {
-		return test.put(k.getBytes(), v.getBytes());
+	private ByteArrayList toByteArrayList(String s) {
+		return new ByteArrayList(s.getBytes());
 	}
 
-	public byte[] put(byte[] k, byte[] v) {
-		return test.put(k, v);
+	private ByteArrayList toByteArrayList(byte[] b) {
+		return new ByteArrayList(b);
 	}
 
-	public byte[] put(byte k, byte v) {
-		return test.put(new byte[]{k}, new byte[]{v});
-	}
+	public boolean put(byte[] k, byte[] v) {
+		return index.put(toByteArrayList(k), toByteArrayList(v)) != null;
 
-	public byte[] get(String k) {
-		return test.get(k.getBytes());
 	}
 
 	public byte[] get(byte[] k) {
-		return test.get(k);
+		return index.get(toByteArrayList(k)).toArray();
 	}
 
-	public byte[] get(byte k) {
-		return test.get(new byte[]{k});
-	}
-
-	public byte[] remove(byte[] k) {
-		return test.remove(k);
+	public boolean del(byte[] k) {
+		return index.remove(toByteArrayList(k)) != null;
 	}
 
 	public int size() {
-		return test.size();
+		return index.size();
 	}
 
 }

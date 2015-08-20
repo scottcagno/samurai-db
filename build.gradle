@@ -11,7 +11,17 @@ repositories {
 }
 
 dependencies {
+
+	// netty
 	compile 'io.netty:netty-all:4.0.30.Final'
+
+	// compact collections
+	compile 'com.goldmansachs:gs-collections-api:6.2.0'
+	compile 'com.goldmansachs:gs-collections:6.2.0'
+	testCompile 'com.goldmansachs:gs-collections-testutils:6.2.0'
+	compile 'com.goldmansachs:gs-collections-forkjoin:6.2.0'
+
+	// mapdb
 	// compile 'org.mapdb:mapdb:1.0.7'
 }
 
