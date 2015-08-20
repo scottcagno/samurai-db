@@ -1,7 +1,6 @@
 package com.cagnosolutions.samurai.db.engine;
 
 import com.cagnosolutions.samurai.db.engine.util.UUID1;
-import com.cagnosolutions.samurai.db.io.disk.DiskStoreEngine;
 
 /**
  * Created by Scott Cagno.
@@ -13,18 +12,18 @@ public final class Database {
 	private final static byte[] ERR = new byte[]{-1};
 	private final static byte[] OK = new byte[]{1};
 
-	private static DiskStoreEngine diskStoreEngine;
+	//private static DiskStoreEngine diskStoreEngine;
 	private static DatabaseEngine databaseEngine;
 
 	public Database(String path, int size) {
-		diskStoreEngine = new DiskStoreEngine(path, size);
+		//diskStoreEngine = new DiskStoreEngine(path, size);
 		databaseEngine = new DatabaseEngine();
 
 		// loaded from file
-		System.out.println("Loading data from file...");
-		for(String stmt : diskStoreEngine.readLines())
-			stmt(stmt.substring(14));
-		System.out.println("Done loading data.");
+		//System.out.println("Loading data from file...");
+		//for(String stmt : diskStoreEngine.readLines())
+		//	stmt(stmt.substring(14));
+		//System.out.println("Done loading data.");
 	}
 
 	public byte[] stmt(String stmt, Object ...fmt) {
@@ -48,14 +47,14 @@ public final class Database {
 	public byte[] put(String key, byte[] val) {
 		if(!databaseEngine.put(key, val))
 			return ERR;
-		diskStoreEngine.put(key, val);
+		//diskStoreEngine.put(key, val);
 		return OK;
 	}
 
 	public byte[] del(String key) {
 		if(!databaseEngine.del(key))
 			return ERR;
-		diskStoreEngine.del(key);
+		//diskStoreEngine.del(key);
 		return OK;
 	}
 
@@ -65,6 +64,10 @@ public final class Database {
 
 	private byte[] uuid() {
 		return UUID1.getTimeUUIDBytes();
+	}
+
+	public int size() {
+		return databaseEngine.size();
 	}
 
 }

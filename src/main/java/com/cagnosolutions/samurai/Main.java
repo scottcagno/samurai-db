@@ -1,7 +1,8 @@
 package com.cagnosolutions.samurai;
 
+import com.cagnosolutions.samurai.db.engine.Database;
 import com.cagnosolutions.samurai.db.engine.util.MemoryStats;
-import com.cagnosolutions.samurai.db.io.disk.TestMap;
+import com.cagnosolutions.samurai.db.io.disk.DiskStore;
 
 import java.io.IOException;
 
@@ -70,18 +71,18 @@ public class Main {
 		Thread.sleep(1000);
 		System.out.println(":: ADDING RECORDS TO INDEX");
 		long ts1 = System.currentTimeMillis();
-		TestMap index = new TestMap();
-		for (int i = 0; i < 100000; i++) {
+		Database db = new Database("data.db", DiskStore.KB*16);
+		for (int i = 0; i < 250000; i++) {
 			String key = String.format("K%d", i);
 			String val = String.format("V%d", i);
-			index.put(key.getBytes(), val.getBytes());
+			db.put(key, val.getBytes());
 		}
 		long ts2 = System.currentTimeMillis()-ts1;
 		System.out.println(":: RUNNING MEMORY TEST");
 		MemoryStats.print();
 		Thread.sleep(1000);
 
-		System.out.printf("index size: %d\n", index.size());
+		System.out.printf("index size: %d\n", db.size());
 		System.out.printf("program ran in %dms\n", ts2);
 
 

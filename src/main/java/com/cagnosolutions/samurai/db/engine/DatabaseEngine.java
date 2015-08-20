@@ -25,4 +25,7 @@ public class DatabaseEngine {
 		return dataStore.get(key);
 	}
 
+	public int size() {
+		return dataStore.size();
+	}
 }
