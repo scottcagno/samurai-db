@@ -10,10 +10,10 @@ import java.util.concurrent.ConcurrentMap;
 
 public class DatabaseEngine {
 
-	private final ConcurrentMap<String, String> dataStore =
+	private final ConcurrentMap<String, byte[]> dataStore =
 			new ConcurrentHashMap<>(500, 0.75f, 2);
 
-	public boolean put(String key, String val) {
+	public boolean put(String key, byte[] val) {
 		return (dataStore.put(key, val) == null);
 	}
 
@@ -21,7 +21,7 @@ public class DatabaseEngine {
 		return (dataStore.remove(key) != null);
 	}
 
-	public String get(String key) {
+	public byte[] get(String key) {
 		return dataStore.get(key);
 	}
 

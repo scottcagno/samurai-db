@@ -2,7 +2,9 @@ package com.cagnosolutions.samurai.db.io.disk;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -17,6 +19,8 @@ public class DiskStoreEngine {
 	private final Lock writeLock = new ReentrantLock();
 	private int position = 0;
 
+	private final static Map<String,Integer> INDEX = new HashMap<>();
+
 	public DiskStoreEngine(String path, int fileSize) {
 		try {
 			diskStore = new DiskStore(new File(path), fileSize);
@@ -25,7 +29,7 @@ public class DiskStoreEngine {
 		}
 	}
 
-	public byte[] generatePutRecord(String key, String value) {
+	public byte[] generatePutRecord(String key, byte[] value) {
 		return String.format("%d PUT %s %s\n", System.currentTimeMillis(), key, value).getBytes();
 	}
 
@@ -33,7 +37,7 @@ public class DiskStoreEngine {
 		return String.format("%d DEL %s\n", System.currentTimeMillis(), key).getBytes();
 	}
 
-	public void put(String key, String value) {
+	public void put(String key, byte[] value) {
 		byte[] record = generatePutRecord(key, value);
 		if(record.length >= diskStore.remaining()) {
 			try {

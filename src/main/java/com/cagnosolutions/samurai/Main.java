@@ -1,5 +1,6 @@
 package com.cagnosolutions.samurai;
 
+import com.cagnosolutions.samurai.db.engine.util.Bytes;
 import com.cagnosolutions.samurai.db.engine.util.MemoryStats;
 
 import java.io.IOException;
@@ -58,17 +59,39 @@ public class Main {
 		System.out.println("----- PROGRAM STOPPED -----");
 		*/
 
+
+
 		System.out.println(":: RUNNING MEMORY TEST");
 		MemoryStats.print();
 		Thread.sleep(1000);
 
 		System.out.println(":: ADDING RECORDS TO INDEX");
-		Map<String,Integer> index = new HashMap<>();
-		for (int i = 0; i < 10000; i++)
-			index.put(String.valueOf(i), i);
+		Map<Bytes,byte[]> index = new HashMap<>();
+		for (int i = 0; i < 128; i++)
+			index.put(new Bytes(new byte[]{(byte)(i)}), new byte[]{(byte)(i)});
 		System.out.println(":: RUNNING MEMORY TEST");
 		MemoryStats.print();
 		Thread.sleep(1000);
+		
+		for (int i = 0; i < 25; i++) {
+			System.out.printf("%d\n", index.get(new Bytes(new byte[]{(byte) (i)}))[0]);
+		}
+
+
+
+
+
+		/*System.out.println(index.size());
+		byte[] res1 = index.get(new Str((byte) 1));
+		System.out.printf("res1: %s\n", new String(res1));
+		byte[] res2 = index.get(new Str((byte) 267));
+		System.out.printf("res1: %s\n", new String(res2));
+		byte[] res3 = index.get(new Str((byte) 82));
+		System.out.printf("res1: %s\n", new String(res3));
+		byte[] res4 = index.get(new Str((byte) 44));
+		System.out.printf("res1: %s\n", new String(res4));
+		byte[] res5 = index.get(new Str((byte) 249000));
+		System.out.printf("res1: %s\n", new String(res5));*/
 
 
 		//long ts = System.currentTimeMillis();
@@ -78,4 +101,52 @@ public class Main {
 		//}
 		//System.out.printf("took %dms to insert 10,000 records\n", System.currentTimeMillis() - ts);
 	}
+
+	public static final class Str {
+
+		private final byte[] bytes;
+		private int hash;
+
+		public Str(byte[] bytes) {
+			this.bytes = bytes;
+		}
+
+		public Str(byte b) {
+			this.bytes = new byte[]{b};
+		}
+
+		public int hashCode() {
+			int h = hash;
+			if (h == 0 && bytes.length > 0) {
+				byte[] val = bytes;
+				for (int i = 0; i < bytes.length; i++)
+					h = 31 * h + val[i];
+				hash = h;
+			}
+			return h;
+		}
+
+		public boolean equals(Object that) {
+			if (this == that)
+				return true;
+			if (that instanceof Str) {
+				Str thatStr = (Str)that;
+				int n = bytes.length;
+				if (n == thatStr.bytes.length) {
+					byte[] v1 = bytes;
+					byte[] v2 = thatStr.bytes;
+					int i = 0;
+					while (n-- != 0) {
+						if (v1[i] != v2[i])
+							return false;
+						i++;
+					}
+					return true;
+				}
+			}
+			return false;
+		}
+	}
 }
+
+
