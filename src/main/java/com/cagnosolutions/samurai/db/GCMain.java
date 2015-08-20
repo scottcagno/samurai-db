@@ -23,7 +23,7 @@ public class GCMain {
 		long ts1 = System.currentTimeMillis();
 		Random random = new Random();
 		MutableMap<ByteArrayList, ByteArrayList> index = new ConcurrentHashMap<>();
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < 750000; i++) {
 			if(i==9) {
 				byte[] foo = new byte[]{'f', 'o', 'o'};
 				byte[] bar = new byte[]{'b', 'a', 'r'};
@@ -46,7 +46,24 @@ public class GCMain {
 		ByteArrayList key = new ByteArrayList(new byte[]{'f','o','o'});
 		ByteArrayList val = index.get(key);
 		System.out.printf("GOT -> {%s:%s}\n", key, val);
-		System.out.println(key.containsAll(new byte[]{'f','o'}));
+		System.out.println(key.containsAll(new byte[]{'f', 'o'}));
+
+
+		System.gc();
+		System.out.println(":: RUNNING MEMORY TEST");
+		MemoryStats.print();
+		System.out.println(":: RUNNING MEMORY TEST");
+		MemoryStats.print();
+		System.gc();
+		System.out.println(":: RUNNING MEMORY TEST");
+		MemoryStats.print();
+		System.out.println(":: RUNNING MEMORY TEST");
+		MemoryStats.print();
+
+		key = new ByteArrayList(new byte[]{'f','o','o'});
+		val = index.get(key);
+		System.out.printf("GOT -> {%s:%s}\n", key, val);
+		System.out.println(key.containsAll(new byte[]{'f', 'o'}));
 
 	}
 

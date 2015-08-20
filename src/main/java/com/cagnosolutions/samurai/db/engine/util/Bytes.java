@@ -36,8 +36,8 @@ public final class Bytes {
 		return h;
 	}
 
-	public Bytes makeKey(Object key) {
-		return key instanceof byte[] ? new Bytes((byte[]) key) : (Bytes) key;
+	public static Bytes wrap(byte[] key) {
+		return new Bytes(key);
 	}
 
 	public byte[] getBuffer() {
