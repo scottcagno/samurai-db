@@ -1,11 +1,10 @@
 package com.cagnosolutions.samurai;
 
-import com.cagnosolutions.samurai.db.engine.util.Bytes;
 import com.cagnosolutions.samurai.db.engine.util.MemoryStats;
+import com.cagnosolutions.samurai.db.io.disk.TestMap;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 /**
  * Created by Scott Cagno.
@@ -64,19 +63,17 @@ public class Main {
 		System.out.println(":: RUNNING MEMORY TEST");
 		MemoryStats.print();
 		Thread.sleep(1000);
-
 		System.out.println(":: ADDING RECORDS TO INDEX");
-		Map<Bytes,byte[]> index = new HashMap<>();
-		for (int i = 0; i < 128; i++)
-			index.put(new Bytes(new byte[]{(byte)(i)}), new byte[]{(byte)(i)});
+		TestMap index = new TestMap();
+		for (int i = 0; i < 100000; i++)
+			index.put(String.valueOf(i), String.valueOf(i));
 		System.out.println(":: RUNNING MEMORY TEST");
 		MemoryStats.print();
 		Thread.sleep(1000);
-		
-		for (int i = 0; i < 25; i++) {
-			System.out.printf("%d\n", index.get(new Bytes(new byte[]{(byte) (i)}))[0]);
-		}
 
+		System.out.println(index.size());
+		byte[] b = index.get("9999");
+		System.out.println(Arrays.toString(b));
 
 
 
